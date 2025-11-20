@@ -1,12 +1,27 @@
 from flask import Flask, request
+from message_parser import parse
+from dosya_gonderen import send_photos
 
-app = Flask(__name__)
+app = Flask(_name_)
 
 @app.post("/webhook")
 def webhook():
     data = request.get_json() or {}
-    print("Gelen mesaj:", data)
-    return {"status": "ok"}
+    
+    # Mesaj metnini çek
+    try:
+        text = data["entry"][0]["messaging"][0]["message"]["text"]
+        sender = data["entry"][0]["messaging"][0]["sender"]["id"]
+    except:
+        return {"status": "invalid payload"}
 
-if __name__ == "__main__":
+    category = parse(text)
+
+    if category == "dyson":
+        send_photos("dyson")
+        return {"status": "ok"}
+
+    return {"status": "unknown message"}
+
+if _name_ == "_main_":
     app.run(port=8000)
