@@ -3,7 +3,7 @@ from flask import Flask, request
 from message_parser import parse
 from dosya_gonderen import send_photos
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 @app.post("/webhook")
 def webhook():
