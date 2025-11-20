@@ -23,5 +23,5 @@ def webhook():
 
     return {"status": "tanimsiz"}
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     app.run(port=8000)
