@@ -6,22 +6,21 @@ app = Flask(_name_)
 
 @app.post("/webhook")
 def webhook():
-    data = request.get_json() or {}
-    
-    # Mesaj metnini çek
+    veri = request.get_json() or {}
+
     try:
-        text = data["entry"][0]["messaging"][0]["message"]["text"]
-        sender = data["entry"][0]["messaging"][0]["sender"]["id"]
+        metin = veri["entry"][0]["messaging"][0]["message"]["text"]
+        gonderen = veri["entry"][0]["messaging"][0]["sender"]["id"]
     except:
-        return {"status": "invalid payload"}
+        return {"status": "gecersiz"}
 
-    category = parse(text)
+    kategori = parse(metin)
 
-    if category == "dyson":
+    if kategori == "dyson":
         send_photos("dyson")
         return {"status": "ok"}
 
-    return {"status": "unknown message"}
+    return {"status": "tanimsiz"}
 
 if _name_ == "_main_":
     app.run(port=8000)
